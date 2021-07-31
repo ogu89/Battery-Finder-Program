@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Battery Finder Program</title>
+	<link rel="stylesheet" href="css/style.css">
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+	
+    
+    <div style="background-color: #ececec;" class=" vh-200">
+        <div class="bg-blue text-white text-center py-2 ">
+            <h1>Batery Finder Program</h1>
+        </div>
+    
+        <div class="pl-3 pt-3">
+            <h3>step1: Select your brand</h3>
+            <select onchange="setModelOptions(); setList();" id="brands" name="brands"></select>
+    
+    
+            <h3>step2: Select your model</h3>
+            <select onchange="setList()" id="models" name="models"></select>
+    
+    
+            <h3>step3: Input Accesary Power Consumption</h3>
+            <p><input type="number" onchange="setList()" id="accesary" value="0" name="accesary" min="0" max="100">W</p>
+    
+            <h3>step4: Choose Your Battery</h3>
+            <div id="batteryList" class="d-flex flex-column align-items-center ">                
+            </div>
+        </div>
+     
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<script type="text/javascript" src="scripts/battery.js"></script>
+</body>
+</html>
