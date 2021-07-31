@@ -157,13 +157,15 @@ const camera =
     }]
 ;
 
-//console.log(battery);
-//console.log(camera);
 
 let brands = document.getElementById("brands")
 let brandArr = [];
 let models = document.getElementById("models")
+let accesary = document.getElementById("accesary");
+let bList = document.getElementById("batteryList");
 
+
+//step1ブランドの選択肢
 camera.map(each=> {
     let brand = document.createElement("option");
     if(! brandArr.includes(each.brand)){
@@ -174,78 +176,77 @@ camera.map(each=> {
     }
 });
 
-function setModelOptions(){
-    models.innerHTML = "";
-    camera.map(each=>{
-        if(each.brand == brands.value){
-            let model = document.createElement("option")
-            model.value = each.model;
-            model.innerHTML =each.brand + ": " + each.model;
-            models.append(model);
-        }
-    });
-}
 
 
 
-//maxDraw * endVoltage
-//capacityAh * voltage
+class functions{
+    
+    //step2モデルの選択肢
+    static setModelOptions(){
+        models.innerHTML = "";
+        camera.map(each=>{
+            if(each.brand == brands.value){
+                let model = document.createElement("option")
+                model.value = each.model;
+                model.innerHTML =each.brand + ": " + each.model;
+                models.append(model);
+            }
+        });
+    }
 
-function setList(){
-    let bList = document.getElementById("batteryList");
-    bList.innerHTML = "";
+    //Step4バッテリー
+    static setBatteryList(){
+        bList.innerHTML = "";
 
-    let currCamera = camera.find(object => object.model === models.value);
-    let accesary = document.getElementById("accesary");
-
-    let batteryList = [];
-    battery.forEach(each=> {
-        if( (each.maxDraw * each.endVoltage) > currCamera.powerConsumptionWh +Number(accesary.value)) batteryList.push(each);
-    })
-
-    batteryList.sort(function(a,b){
-
-        let nameA = a.batteryName.toUpperCase();
-        let nameB = b.batteryName.toUpperCase();
-        let middleA = a.batteryName.search("-");
-        let middleB = b.batteryName.search("-");
-
-        nameA = nameA.substring(0, middleA);
-        nameB = nameB.substring(0, middleB);
-
-
-        if(nameA < nameB){
-        return -1;
-        }
-        else if(nameA > nameB){
-        return 1;
-        }
-        else{
-            return (a.capacityAh > b.capacityAh) ? 1 : -1 ;
-        }
-            
+        let currCamera = camera.find(object => object.model === models.value);
         
+        let batteryArr = [];
+        battery.forEach(each=> {
+            if( (each.maxDraw * each.endVoltage) > currCamera.powerConsumptionWh +Number(accesary.value)) batteryArr.push(each);
+        })
+        
+        //リストの並び替え
+        batteryArr = this.sortList(batteryArr);
 
-    });
+        batteryArr.map(each => {
+            let w =Math.floor(  (each.capacityAh * each.voltage) / (currCamera.powerConsumptionWh + Number(accesary.value)) *10)/10;
 
+            let eachList=
+            `
+                <div class="border border-dark col-6 d-flex justify-content-between" >
+                    <p class="col d-flex justify-content-start">${each.batteryName}</p>
+                    <p class="col d-flex justify-content-end">Estimated ${w} hours on selected setup</p>
+                <div>
+            `;
+            bList.innerHTML += eachList;
+        })
+    }
 
+    //リストのbatteryNameをもとに順番入れ替え
+    static sortList(list){
+        list.sort(function(a,b){
+            let nameA = a.batteryName.toUpperCase();
+            let nameB = b.batteryName.toUpperCase();
+            let middleA = a.batteryName.search("-");
+            let middleB = b.batteryName.search("-");
 
-    batteryList.map(each => {
+            nameA = nameA.substring(0, middleA);
+            nameB = nameB.substring(0, middleB);
 
-        let w =Math.floor(  (each.capacityAh * each.voltage) / (currCamera.powerConsumptionWh + Number(accesary.value)) *10)/10;
+            if(nameA < nameB)return -1;
+            if(nameA > nameB)return 1;
+            else　return (a.capacityAh > b.capacityAh) ? 1 : -1 ;
+        });
 
-        let eachList=
-        `
-            <div class="border border-dark col-6 d-flex justify-content-between" >
-                <p class="col d-flex justify-content-start">${each.batteryName}</p>
-                <p class="col d-flex justify-content-end">Estimated ${w} hours on selected setup</p>
-            <div>
-        `;
-        bList.innerHTML += eachList;
-
-    })
+        return list;
+    }
 }
 
-//初期値
-setModelOptions()
-setList();
+
+
+
+
+
+//初期値反映
+functions.setModelOptions()
+functions.setBatteryList();
