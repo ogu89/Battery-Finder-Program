@@ -1,4 +1,3 @@
-// ここから書いてください。
 const battery =
     [{
         "batteryName": "WKL-78",
@@ -165,7 +164,7 @@ let accesary = document.getElementById("accesary");
 let bList = document.getElementById("batteryList");
 
 
-//step1ブランドの選択肢
+//allocating step1 brand options
 camera.map(each=> {
     let brand = document.createElement("option");
     if(! brandArr.includes(each.brand)){
@@ -181,7 +180,8 @@ camera.map(each=> {
 
 class functions{
     
-    //step2モデルの選択肢
+    
+    //allocating step2 model optins
     static setModelOptions(){
         models.innerHTML = "";
         camera.map(each=>{
@@ -194,7 +194,7 @@ class functions{
         });
     }
 
-    //Step4バッテリー
+    //Creating step4 battery list
     static setBatteryList(){
         bList.innerHTML = "";
 
@@ -202,10 +202,10 @@ class functions{
         
         let batteryArr = [];
         battery.forEach(each=> {
-            if( (each.maxDraw * each.endVoltage) > currCamera.powerConsumptionWh +Number(accesary.value)) batteryArr.push(each);
+            if( (each.maxDraw * each.endVoltage) > currCamera.powerConsumptionWh + Number(accesary.value)) batteryArr.push(each);
         })
         
-        //リストの並び替え
+        //Sort arraylist
         batteryArr = this.sortList(batteryArr);
 
         batteryArr.map(each => {
@@ -213,16 +213,16 @@ class functions{
 
             let eachList=
             `
-                <div class="border border-dark col-6 d-flex justify-content-between" >
-                    <p class="col d-flex justify-content-start">${each.batteryName}</p>
-                    <p class="col d-flex justify-content-end">Estimated ${w} hours on selected setup</p>
+                <div class=" container border border-dark col-sm-6 col-10 d-flex flex-wrap justify-content-between" >
+                    <p class="col-sm-6 col-12 d-flex justify-content-start">${each.batteryName}</p>
+                    <p class="col-sm-6 col-12 d-flex justify-content-end">Estimated ${w} hours on selected setup</p>
                 <div>
             `;
             bList.innerHTML += eachList;
         })
     }
 
-    //リストのbatteryNameをもとに順番入れ替え
+    //sort list by "batteryName" 
     static sortList(list){
         list.sort(function(a,b){
             let nameA = a.batteryName.toUpperCase();
@@ -247,6 +247,6 @@ class functions{
 
 
 
-//初期値反映
+//Showing initial value
 functions.setModelOptions()
 functions.setBatteryList();
