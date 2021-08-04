@@ -2,7 +2,7 @@
 
 This web application is an assignment from <a href="https://recursionist.io/">Recursion</a>(learning platform for computer science).
 
-It shows all the batteries compatible with the camera set based on the total power consumed along with how long the battery lasts when fully charged
+It shows all the batteries compatible with the camera set based on the total power consumed and also shows how long the battery lasts when fully charged
 
 ### Usage
 Step1: Select the camera brand from the drop down option<br>
