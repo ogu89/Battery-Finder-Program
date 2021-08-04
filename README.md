@@ -8,9 +8,6 @@ Step1: Select the camera brand from the drop down option<br>
 Step2: Select the camera bodel from the drop down option<br>
 Step3: Type in accessory power consumption between 0 and 100 watts
 
-### Screenshot
-
-
 ### URL
 <a href="https://ogu89.github.io/Battery-Finder-Program/">https://ogu89.github.io/Battery-Finder-Program/</a>
 
